@@ -51,7 +51,7 @@ app.get("/download", (req, res) => {
                         : hasAudio ? `Full Video ${qualityLabel} (mp4)`
                         : `Video Only ${qualityLabel} (mp4)`;
 
-                    downloadLinks[label] = `http://127.0.0.1:5000/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`;
+                    downloadLinks[label] = `/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`;
                 }
             });
 
@@ -76,7 +76,7 @@ app.get("/force_download", async (req, res) => {
         return res.status(400).json({ error: "video_id and format_id are required!" });
     }
 
-    const command = `yt-dlp -j -f ${formatId} "https://www.youtube.com/watch?v=${videoId}"`;
+    const command = `./yt-dlp --cookies cookies.txt -j -f ${formatId} "https://www.youtube.com/watch?v=${videoId}"`;
 
     exec(command, async (error, stdout, stderr) => {
         if (error) {
