@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const { exec } = require("child_process");
 const axios = require("axios");
+require('dotenv').config();
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
@@ -24,8 +26,8 @@ app.get("/download", (req, res) => {
     if (!videoUrl) {
         return res.status(400).json({ error: "URL is required!" });
     }
-
-    const command = `./yt-dlp -j "${videoUrl}"`;
+    fs.writeFileSync('cookies.txt', process.env.YOUTUBE_COOKIES);
+    const command = `./yt-dlp --cookies cookies.txt -j "${videoUrl}"`;
 
     exec(command, (error, stdout, stderr) => {
         if (error) {
