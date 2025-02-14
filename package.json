@@ -11,6 +11,5 @@
 },
   "dependencies": {
   "express": "^4.17.1",
-  "yt-dlp": "^1.0.0"
 }
 }
