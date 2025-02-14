@@ -7,9 +7,13 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-  "start": "node server.js"
-},
+    "start": "node server.js"
+  },
   "dependencies": {
-  "express": "^4.17.1",
-}
+    "axios": "^1.7.9",
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "keywords": []
 }
