@@ -4,8 +4,8 @@
     "description": "A simple Express.js backend for yt-dlp",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js"
-    },
+    "start": "pip install -U yt-dlp && node server.js"
+  },
     "dependencies": {
       "express": "^4.17.1",
       "cors": "^2.8.5"
