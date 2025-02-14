@@ -46,11 +46,12 @@ app.get("/download", (req, res) => {
                 if (format.url && (format.ext === "mp4" || format.ext === "m4a") && !format.url.includes("m3u8")) {
                     const qualityLabel = getQualityLabel(format.height);
                     const hasAudio = format.acodec !== "none";
+                    const api-force-url = process.env.SITE_URL
 
                     let label = format.ext === "m4a" ? "Audio Only (m4a)"
                         : hasAudio ? `Full Video ${qualityLabel} (mp4)`
                         : `Video Only ${qualityLabel} (mp4)`;
-                    const api-force-url = process.env.SITE_URL
+                    
                     downloadLinks[label] = `${api-force-url}/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`;
                 }
             });
