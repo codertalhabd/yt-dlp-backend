@@ -5,6 +5,21 @@ const { exec } = require("child_process");
 const app = express();
 app.use(cors());
 
+// yt-dlp ইনস্টল করা হচ্ছে
+const installYtDlp = () => {
+    exec("curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp && chmod a+rx /usr/local/bin/yt-dlp", 
+    (error, stdout, stderr) => {
+        if (error) {
+            console.error(`yt-dlp installation error: ${stderr}`);
+        } else {
+            console.log(`yt-dlp installed successfully: ${stdout}`);
+        }
+    });
+};
+
+// Install yt-dlp before starting the server
+installYtDlp();
+
 // Function to convert resolution height to quality label
 const getQualityLabel = (height) => {
     if (!height) return "Audio Only";
