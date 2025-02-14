@@ -50,8 +50,8 @@ app.get("/download", (req, res) => {
                     let label = format.ext === "m4a" ? "Audio Only (m4a)"
                         : hasAudio ? `Full Video ${qualityLabel} (mp4)`
                         : `Video Only ${qualityLabel} (mp4)`;
-
-                    downloadLinks[label] = `/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`;
+                    const api-force-url = process.env.SITE_URL
+                    downloadLinks[label] = `${api-force-url}/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`;
                 }
             });
 
