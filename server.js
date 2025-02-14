@@ -25,7 +25,7 @@ app.get("/download", (req, res) => {
         return res.status(400).json({ error: "URL is required!" });
     }
 
-    const command = `yt-dlp -j "${videoUrl}"`;
+    const command = `./yt-dlp -j "${videoUrl}"`;
 
     exec(command, (error, stdout, stderr) => {
         if (error) {
