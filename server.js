@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { exec } = require("child_process");
+const axios = require("axios");
 
 const app = express();
 app.use(cors());
@@ -18,7 +19,7 @@ const getQualityLabel = (height) => {
 };
 
 // Route to fetch YouTube video/audio download links
-app.get("/api/download", (req, res) => {
+app.get("/download", (req, res) => {
     const videoUrl = req.query.url;
     if (!videoUrl) {
         return res.status(400).json({ error: "URL is required!" });
@@ -48,7 +49,7 @@ app.get("/api/download", (req, res) => {
                         : hasAudio ? `Full Video ${qualityLabel} (mp4)`
                         : `Video Only ${qualityLabel} (mp4)`;
 
-                    downloadLinks[label] = format.url;
+                    downloadLinks[label] = `http://127.0.0.1:5000/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`;
                 }
             });
 
@@ -64,8 +65,46 @@ app.get("/api/download", (req, res) => {
     });
 });
 
-// Start the server
-const PORT = process.env.PORT || 8080;
+// Route to force file download
+app.get("/force_download", async (req, res) => {
+    const videoId = req.query.video_id;
+    const formatId = req.query.format_id;
+
+    if (!videoId || !formatId) {
+        return res.status(400).json({ error: "video_id and format_id are required!" });
+    }
+
+    const command = `yt-dlp -j -f ${formatId} "https://www.youtube.com/watch?v=${videoId}"`;
+
+    exec(command, async (error, stdout, stderr) => {
+        if (error) {
+            return res.status(500).json({ error: stderr || "Failed to fetch video download link!" });
+        }
+
+        try {
+            const videoInfo = JSON.parse(stdout);
+            const fileUrl = videoInfo.url;
+            const videoTitle = videoInfo.title.replace(/[^a-zA-Z0-9]/g, "_");
+            const fileExt = videoInfo.ext;
+
+            const headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                "Referer": "https://www.youtube.com/"
+            };
+
+            const response = await axios.get(fileUrl, { responseType: "stream", headers });
+
+            res.setHeader("Content-Disposition", `attachment; filename="${videoTitle}.${fileExt}"`);
+            res.setHeader("Content-Type", response.headers["content-type"]);
+
+            response.data.pipe(res);
+        } catch (parseError) {
+            res.status(500).json({ error: "Error parsing video download data!" });
+        }
+    });
+});
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

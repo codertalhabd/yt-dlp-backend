@@ -1,14 +1,16 @@
 {
-    "name": "yt-dlp-backend",
-    "version": "1.0.0",
-    "description": "A simple Express.js backend for yt-dlp",
-    "main": "server.js",
-    "scripts": {
-    "start": "pip install -U yt-dlp && node server.js"
-  },
-    "dependencies": {
-      "express": "^4.17.1",
-      "cors": "^2.8.5"
-    }
-  }
-  
+  "name": "yt-dlp-backend",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+  "start": "node server.js"
+},
+  "dependencies": {
+  "express": "^4.17.1",
+  "yt-dlp": "^1.0.0"
+}
+}
