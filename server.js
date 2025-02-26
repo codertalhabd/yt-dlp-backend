@@ -26,33 +26,35 @@ app.get("/download", (req, res) => {
     if (!videoUrl) {
         return res.status(400).json({ error: "URL is required!" });
     }
-    fs.writeFileSync('cookies.txt', process.env.YOUTUBE_COOKIES);
+
     const command = `./yt-dlp --cookies cookies.txt -j "${videoUrl}"`;
 
     exec(command, (error, stdout, stderr) => {
-        if (error) {
+        if (error || !stdout) {
             return res.status(500).json({ error: stderr || "Failed to fetch video info!" });
         }
 
         try {
             const videoInfo = JSON.parse(stdout);
+            if (!videoInfo.formats) throw new Error("Invalid video info format");
+
             const videoTitle = videoInfo.title.replace(/[^a-zA-Z0-9]/g, "_");
             const thumbnailUrl = videoInfo.thumbnail;
             const formats = videoInfo.formats;
+            const api_force_url = process.env.SITE_URL;
 
-            let downloadLinks = {};
+            let downloadLinks = [];
 
             formats.forEach(format => {
                 if (format.url && (format.ext === "mp4" || format.ext === "m4a") && !format.url.includes("m3u8")) {
                     const qualityLabel = getQualityLabel(format.height);
                     const hasAudio = format.acodec !== "none";
-                    const api_force_url = process.env.SITE_URL;
 
                     let label = format.ext === "m4a" ? "Audio Only (m4a)"
                         : hasAudio ? `Full Video ${qualityLabel} (mp4)`
                         : `Video Only ${qualityLabel} (mp4)`;
-                    
-                   downloadLinks.push({
+
+                    downloadLinks.push({
                         quality: label,
                         link: `${api_force_url}/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`
                     });
@@ -70,6 +72,7 @@ app.get("/download", (req, res) => {
         }
     });
 });
+
 
 // Route to force file download
 app.get("/force_download", async (req, res) => {
