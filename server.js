@@ -26,7 +26,7 @@ app.get("/download", (req, res) => {
     if (!videoUrl) {
         return res.status(400).json({ error: "URL is required!" });
     }
-
+    fs.writeFileSync('cookies.txt', process.env.YOUTUBE_COOKIES);
     const command = `./yt-dlp --cookies cookies.txt -j "${videoUrl}"`;
 
     exec(command, (error, stdout, stderr) => {
