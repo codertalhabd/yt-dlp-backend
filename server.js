@@ -52,7 +52,10 @@ app.get("/download", (req, res) => {
                         : hasAudio ? `Full Video ${qualityLabel} (mp4)`
                         : `Video Only ${qualityLabel} (mp4)`;
                     
-                    downloadLinks[label] = `${api_force_url}/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`;
+                   downloadLinks.push({
+                        quality: label,
+                        link: `${api_force_url}/force_download?video_id=${videoInfo.id}&format_id=${format.format_id}`
+                    });
                 }
             });
 
