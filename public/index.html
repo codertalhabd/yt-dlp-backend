@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .api-route {
+            background: #007bff;
+            color: white;
+            padding: 10px;
+            display: inline-block;
+            margin: 10px 0;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to YouTube Downloader API</h1>
+        <p>Use the following routes to access the API:</p>
+        <a href="/download?url=https://www.youtube.com/watch?v=VIDEO_ID" class="api-route">Test Download API</a>
+        <a href="/force_download?video_id=VIDEO_ID&format_id=140" class="api-route">Test Force Download API</a>
+        <p>Replace <strong>VIDEO_ID</strong> with a valid YouTube video ID.</p>
+    </div>
+</body>
+</html>
