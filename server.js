@@ -7,6 +7,12 @@ const fs = require('fs');
 
 const app = express();
 app.use(cors());
+app.use(express.static("public")); // Serve static files
+
+// Serve the index.html page as the default route
+app.get("/", (req, res) => {
+    res.sendFile(__dirname + "/public/index.html");
+});
 
 // Function to convert resolution height to quality label
 const getQualityLabel = (height) => {
