@@ -42,7 +42,7 @@ YOUTUBE_COOKIES=your_cookie_data_here
 ```sh
 node server.js
 ```
-Your API will run on `https://api.abutalhabd.xyz`
+Your API will run on `http://127.0.0.1:5000`
 
 ## 📌 API Endpoints
 
