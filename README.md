@@ -12,8 +12,8 @@ A simple **YouTube Video & Audio Downloader API** using **Express.js** and `yt-d
 
 ### **1️⃣ Clone the repository**
 ```sh
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/codertalhabd/yt-dlp-backend.git
+cd yt-dlp-backend
 ```
 
 ### **2️⃣ Install dependencies**
